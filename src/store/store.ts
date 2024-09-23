@@ -1,6 +1,6 @@
 import { v4 as uuidV4 } from 'uuid'
 import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
+import { devtools, persist } from 'zustand/middleware'
 import { DraftPatient, IPatient } from '../components/PatientForm/PatientForm.types'
 import { IPatientSTate } from './store.types'
 
@@ -9,7 +9,8 @@ const createPatient = (patient: DraftPatient) : IPatient =>{
 }
 
 export const usePatientStore = create<IPatientSTate>()(
-    devtools((set) => ({
+    devtools(
+        persist ((set) => ({
  patients: [],
  activeID:'',
  addPatient: (data) => { 
@@ -38,5 +39,7 @@ editPatient: (patient) =>{
 } 
 
 
+}), {
+    name: 'patientsStorage'
 })
 ))

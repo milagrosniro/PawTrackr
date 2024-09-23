@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { usePatientStore } from "../../store/store";
 import ErrorMsg from "../ErrorMsg";
 import { DraftPatient } from "./PatientForm.types";
@@ -27,16 +28,20 @@ const PatientForm = () => {
 
   const registerPatient = (data: DraftPatient) => {
    addPatient(data);
-    reset()
+   toast.success('Patient added correctly');
+    reset();
+
   };
 
   const editInfoPatient = (data: DraftPatient) => {
     editPatient(data);
+   toast.success('Patient edited correctly');
      reset()
    };
 
   return (
     <div className="md:w-1/2 lg:w-2/5 mx-5">
+      
       <h2 className="font-black text-3xl text-center">Patient Tracking</h2>
 
       <p className="text-lg mt-5 text-center mb-10">
