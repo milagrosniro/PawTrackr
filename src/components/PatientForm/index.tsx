@@ -1,16 +1,39 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { usePatientStore } from "../../store/store";
 import ErrorMsg from "../ErrorMsg";
 import { DraftPatient } from "./PatientForm.types";
 
 const PatientForm = () => {
-  
+
+  const {addPatient, activeID, patients, editPatient } = usePatientStore();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset, 
+    setValue
   } = useForm<DraftPatient>();
 
-  const registerPatient = (data: DraftPatient) => {console.log(data)};
+  useEffect(()=>{
+    if(activeID){
+      const activePatient :DraftPatient = patients.filter(patient => patient.id === activeID)[0];
+      Object.entries(activePatient).forEach(([property,value])=>{
+        if(property in activePatient){setValue(property as keyof DraftPatient,value)}})
+      
+    }
+  },[activeID])
+
+  const registerPatient = (data: DraftPatient) => {
+   addPatient(data);
+    reset()
+  };
+
+  const editInfoPatient = (data: DraftPatient) => {
+    editPatient(data);
+     reset()
+   };
 
   return (
     <div className="md:w-1/2 lg:w-2/5 mx-5">
@@ -25,7 +48,7 @@ const PatientForm = () => {
       <form
         className="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
         noValidate
-        onSubmit={handleSubmit(registerPatient)}
+        onSubmit={activeID ? handleSubmit(editInfoPatient) : handleSubmit(registerPatient)}
       >
         <div className="mb-5">
           <label htmlFor="name" className="text-sm uppercase font-bold">
@@ -122,7 +145,7 @@ const PatientForm = () => {
         <input
           type="submit"
           className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-          value="Save Patient"
+          value={`${activeID ? "Edit Patient" :  "Save Patient"} `}
         />
       </form>
     </div>
