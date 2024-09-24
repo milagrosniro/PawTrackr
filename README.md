@@ -12,7 +12,7 @@ This app helps veterinary clinics manage patient records easily and efficiently.
 - **Vite**: Fast build tool for modern web applications.
 - **TailwindCSS**: Utility-first CSS framework for styling.
 - **Zustand**: Lightweight state management library.
-- **Toastify**: For displaying beautiful and customizable notifications.
+- **React Hook Form**: A flexible and performant library for handling form validation and submission in React.
 
 ## ✨ Features
 
